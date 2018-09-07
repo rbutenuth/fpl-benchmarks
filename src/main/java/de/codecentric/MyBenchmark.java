@@ -31,14 +31,23 @@
 
 package de.codecentric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
 
 public class MyBenchmark {
 
     @Benchmark
-    public void testMethod() {
-        // This is a demo/sample template for building your JMH benchmarks. Edit as needed.
-        // Put your benchmark code here.
+    @BenchmarkMode(Mode.Throughput)
+    public Object testMethod() {
+    	List<Integer> list = new ArrayList<>();
+    	for (int i = 0; i < 10; i++) {
+    		list.add(new Integer(i));
+    	}
+    	return list;
     }
 
 }
