@@ -65,16 +65,9 @@ public class ListBenchmark {
 	private static ArrayList<Result> run(Runner candidate) {
 		ArrayList<Result> results = new ArrayList<>();
 		for (int count = 1; count <= MAX_COUNT; count *= 4) {
-			StopWatch sw = new StopWatch();
 			candidate.prepare(count);
-			sw.start();
 			candidate.run();
-			sw.stop();
 			candidate.cleanup();
-			results.add(new Result(count, sw.totalTime()));
-			if (sw.totalTime() > MAX_TIME) {
-				break;
-			}
 		}
 		return results;
 	}
