@@ -1,4 +1,4 @@
-package de.codecentric.fpl.benchmark;
+package old.code.to.be.removed.after.migration;
 
 import de.codecentric.fpl.EvaluationException;
 import de.codecentric.fpl.datatypes.FplInteger;
@@ -6,19 +6,6 @@ import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 public class FplListBenchmark {
-
-	public static Runner createFplistAdd() {
-		return new AbstractRunner() {
-
-			@Override
-			public void run() {
-				FplList list = FplList.EMPTY_LIST;
-				for (int i = 0; i < problemSize; i++) {
-					list = list.addAtEnd(FplInteger.valueOf(i));
-				}
-			}
-		};
-	}
 
 	public static Runner createFplListJoin() {
 		return new AbstractRunner() {

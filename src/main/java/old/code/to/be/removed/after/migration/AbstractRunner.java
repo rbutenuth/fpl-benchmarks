@@ -1,4 +1,4 @@
-package de.codecentric.fpl.benchmark;
+package old.code.to.be.removed.after.migration;
 
 public abstract class AbstractRunner implements Runner {
 	protected int problemSize;
