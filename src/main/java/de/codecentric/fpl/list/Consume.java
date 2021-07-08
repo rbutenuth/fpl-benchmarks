@@ -16,7 +16,7 @@ import de.codecentric.fpl.datatypes.list.FplList;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class Consume {
 	
-	@Param({"1", "10", "100", "1000", "10000", "100000", "1000000" })
+	@Param({"1", "10", "100", "1000", "10000" })
     public int size;
 	
 	public FplList preparedList;
