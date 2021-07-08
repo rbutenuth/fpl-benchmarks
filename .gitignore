@@ -3,3 +3,6 @@ hs_err_pid*
 /.project
 /help.txt
 /target
+/fpl-benchmarks.iml
+/.idea/
+/.settings/

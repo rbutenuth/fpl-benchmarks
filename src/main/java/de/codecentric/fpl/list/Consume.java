@@ -2,13 +2,9 @@ package de.codecentric.fpl.list;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Param;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import de.codecentric.fpl.EvaluationException;
@@ -17,6 +13,7 @@ import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 @State(Scope.Benchmark)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class Consume {
 	
 	@Param({"1", "10", "100", "1000", "10000", "100000", "1000000" })
