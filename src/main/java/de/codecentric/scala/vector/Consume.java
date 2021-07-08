@@ -91,7 +91,7 @@ public class Consume {
      */
     @Benchmark
     public long recursiveSplit() {
-        return 1L;
+        return recursiveSplit(preparedList);
     }
 
     private long recursiveSplit(Vector<Integer> list) {
