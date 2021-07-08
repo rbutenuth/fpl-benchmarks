@@ -7,31 +7,6 @@ import de.codecentric.fpl.datatypes.list.FplList;
 
 public class FplListBenchmark {
 
-	public static Runner createFplListJoin() {
-		return new AbstractRunner() {
-
-			@Override
-			public void run() {
-				@SuppressWarnings("unused")
-				FplList list = createRecursive(0, problemSize);
-			}
-
-			private FplList createRecursive(int start, int end) {
-				FplList list = FplList.EMPTY_LIST;
-				if (end - start < 8) {
-					for (long i = start; i < end; i++) {
-						list = list.addAtEnd(FplInteger.valueOf(i));
-					}
-				} else {
-					int split = (end + start) / 2;
-					list = list.append(createRecursive(start, split));
-					list = list.append(createRecursive(split, end));
-				}
-				return list;
-			}
-		};
-	}
-
 	public static Runner fplListGetAll() {
 		return new AbstractRunner() {
 			private FplList list;
