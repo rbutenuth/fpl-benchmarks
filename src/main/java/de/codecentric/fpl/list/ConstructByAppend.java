@@ -8,8 +8,8 @@ import org.openjdk.jmh.annotations.State;
 import de.codecentric.fpl.datatypes.FplInteger;
 import de.codecentric.fpl.datatypes.list.FplList;
 
-@State(Scope.Benchmark)
-public class Construct {
+@State(Scope.Thread)
+public class ConstructByAppend {
 
 	@Param({"1", "10", "100", "1000", "10000", "100000", "1000000" })
     public int size;
