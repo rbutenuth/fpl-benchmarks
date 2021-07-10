@@ -1,18 +1,18 @@
 package de.codecentric.scala.list;
 
-import org.openjdk.jmh.annotations.*;
+import java.util.concurrent.TimeUnit;
 
-import de.codecentric.fpl.datatypes.FplInteger;
-import de.codecentric.fpl.datatypes.FplValue;
-import de.codecentric.fpl.datatypes.list.FplList;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
+
 import scala.collection.immutable.List;
 import scala.collection.immutable.List$;
 
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
-
 @State(Scope.Thread)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class Construct {
 
     @Param({"1", "10", "100", "1000", "10000" })

@@ -14,7 +14,7 @@ import de.codecentric.fpl.datatypes.list.FplList;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class Construct {
 
 	@Param({"1", "10", "100", "1000", "10000" })

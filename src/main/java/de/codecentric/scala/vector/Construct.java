@@ -2,15 +2,13 @@ package de.codecentric.scala.vector;
 
 import org.openjdk.jmh.annotations.*;
 
-import scala.collection.immutable.List;
-import scala.collection.immutable.List$;
 import scala.collection.immutable.Vector;
 import scala.collection.immutable.Vector$;
 
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class Construct {
 
     @Param({"1", "10", "100", "1000", "10000" })
