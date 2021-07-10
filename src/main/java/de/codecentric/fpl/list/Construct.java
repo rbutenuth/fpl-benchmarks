@@ -1,19 +1,22 @@
 package de.codecentric.fpl.list;
 
+import java.util.Iterator;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
 import de.codecentric.fpl.datatypes.FplInteger;
+import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 @State(Scope.Thread)
 public class Construct {
 
-	@Param({"1", "10", "100", "1000", "10000", "100000", "1000000" })
-    public int size;
-	
+	@Param({ "1", "10", "100", "1000", "10000", "100000", "1000000" })
+	public int size;
+
 	@Benchmark
 	public FplList appendAtEnd() {
 		FplList list = FplList.EMPTY_LIST;
@@ -50,4 +53,39 @@ public class Construct {
 			return appendLists(start, leftSize).append(appendLists(start + leftSize, rightSize));
 		}
 	}
+
+	@Benchmark
+	public FplList constructFromIteratorWithKnownSize() {
+		return FplList.fromIterator(new Iterator<FplValue>() {
+			int i = 0;
+
+			@Override
+			public FplValue next() {
+				return FplInteger.valueOf(i++);
+			}
+
+			@Override
+			public boolean hasNext() {
+				return i < size;
+			}
+		}, size);
+	}
+
+	@Benchmark
+	public FplList constructFromIterator() {
+		return FplList.fromIterator(new Iterator<FplValue>() {
+			int i = 0;
+
+			@Override
+			public FplValue next() {
+				return FplInteger.valueOf(i++);
+			}
+
+			@Override
+			public boolean hasNext() {
+				return i < size;
+			}
+		});
+	}
+
 }

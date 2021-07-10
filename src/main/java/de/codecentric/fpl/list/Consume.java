@@ -40,7 +40,7 @@ public class Consume {
 			public boolean hasNext() {
 				return i < size;
 			}
-		});
+		}, size);
 		shuffle = new int[size];
 		for (int i = 0; i < size; i++) {
 			shuffle[i] = i;
