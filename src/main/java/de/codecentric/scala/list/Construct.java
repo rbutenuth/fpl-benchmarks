@@ -1,8 +1,14 @@
 package de.codecentric.scala.list;
 
 import org.openjdk.jmh.annotations.*;
+
+import de.codecentric.fpl.datatypes.FplInteger;
+import de.codecentric.fpl.datatypes.FplValue;
+import de.codecentric.fpl.datatypes.list.FplList;
 import scala.collection.immutable.List;
 import scala.collection.immutable.List$;
+
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
@@ -48,4 +54,15 @@ public class Construct {
             return (List<Integer>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
         }
     }
+    
+    // TODO @Benchmark
+	public List<Integer> constructFromIteratorWithKnownSize() {
+        return null;
+	}
+
+	@Benchmark
+	public List<Integer> constructFromIterator() {
+		// TODO: Is this with known size or with unknown size?
+        return List$.MODULE$.tabulate(size, x -> (Integer)x + 1).iterator().toList();
+	}
 }

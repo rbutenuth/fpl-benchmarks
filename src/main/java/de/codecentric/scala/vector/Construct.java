@@ -1,6 +1,9 @@
 package de.codecentric.scala.vector;
 
 import org.openjdk.jmh.annotations.*;
+
+import scala.collection.immutable.List;
+import scala.collection.immutable.List$;
 import scala.collection.immutable.Vector;
 import scala.collection.immutable.Vector$;
 
@@ -49,4 +52,15 @@ public class Construct {
             return (Vector<Integer>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
         }
     }
+    
+    // TODO @Benchmark
+	public Vector<Integer> constructFromIteratorWithKnownSize() {
+        return null;
+	}
+
+	@Benchmark
+	public Vector<Integer> constructFromIterator() {
+		// TODO: Is this with known size or with unknown size?
+        return Vector$.MODULE$.tabulate(size, x -> (Integer)x + 1).toVector();
+	}
 }
