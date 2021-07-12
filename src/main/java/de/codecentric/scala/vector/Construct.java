@@ -2,7 +2,6 @@ package de.codecentric.scala.vector;
 
 import org.openjdk.jmh.annotations.*;
 
-import scala.Long;
 import scala.collection.Seq;
 import scala.collection.immutable.Vector;
 import scala.collection.immutable.Vector$;
@@ -55,10 +54,9 @@ public class Construct {
             return (Vector<java.lang.Long>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
         }
     }
-    
-    // TODO @Benchmark
-	public Vector<Long> constructFromIteratorWithKnownSize() {
-        return null;
+
+	public Vector<java.lang.Long> constructFromIteratorWithKnownSize() {
+        return (Vector<java.lang.Long>)Vector$.MODULE$.iterate(0L, size, x -> (long)x + 1);
 	}
 
 	@Benchmark

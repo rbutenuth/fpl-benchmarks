@@ -70,7 +70,7 @@ public class Consume {
         List<java.lang.Long> list = preparedList;
         while (!list.isEmpty()) {
             sum += list.head();
-            list = list.drop(1);
+            list = (List<java.lang.Long>)list.drop(1);
         }
         return sum;
     }
@@ -81,7 +81,7 @@ public class Consume {
         List<java.lang.Long> list = preparedList;
         while (!list.isEmpty()) {
             sum += list.last();
-            list = list.dropRight(1);
+            list = (List<java.lang.Long>)list.dropRight(1);
         }
         return sum;
     }
