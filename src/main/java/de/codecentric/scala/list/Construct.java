@@ -56,14 +56,14 @@ public class Construct {
         }
     }
     
-    // TODO @Benchmark
+    @Benchmark
 	public List<java.lang.Long> constructFromIteratorWithKnownSize() {
-        return null;
+        return (List<java.lang.Long>) List$.MODULE$.iterate((long)0, size, x -> (long)x + 1);
 	}
 
-	@Benchmark
+	//TODO @Benchmark
 	public List<java.lang.Long> constructFromIterator() {
-		// TODO: Is this with known size or with unknown size?
-        return List$.MODULE$.tabulate(size, x -> (java.lang.Long)x + 1).iterator().toList();
+        return (List<java.lang.Long>) List$.MODULE$.tabulate(size, x -> (java.lang.Integer)x + 1L);
+
 	}
 }

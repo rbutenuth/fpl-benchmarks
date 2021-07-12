@@ -61,7 +61,6 @@ public class Construct {
 
 	@Benchmark
 	public Vector<java.lang.Long> constructFromIterator() {
-		// TODO: Is this with known size or with unknown size?
-        return Vector$.MODULE$.tabulate(size, x -> (java.lang.Long)x + 1).toVector();
+        return (Vector<java.lang.Long>)Vector$.MODULE$.tabulate(size, x -> (java.lang.Integer)x + 1L);
 	}
 }

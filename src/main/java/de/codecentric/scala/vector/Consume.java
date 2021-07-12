@@ -23,7 +23,7 @@ public class Consume {
 
     @Setup
     public void setup() {
-        preparedList = Vector$.MODULE$.tabulate(size, x -> (java.lang.Long)x + 1).toVector();
+        preparedList = (Vector<java.lang.Long>)Vector$.MODULE$.tabulate(size, x -> (java.lang.Integer)x + 1L);
         shuffle = new int[size];
         for (int i = 0; i < size; i++) {
             shuffle[i] = i;
@@ -61,7 +61,7 @@ public class Consume {
 
     @Benchmark
     public Vector<java.lang.Long> mapElementsToThereDoubleValue() {
-        return preparedList.map((java.lang.Long i) -> 2 * i);
+        return (Vector<java.lang.Long>)preparedList.map(i -> (long)i * 2);
     }
 
     @Benchmark

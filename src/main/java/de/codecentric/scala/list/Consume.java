@@ -23,7 +23,7 @@ public class Consume {
 
     @Setup
     public void setup() {
-        preparedList = List$.MODULE$.tabulate(size, x -> (long)x + 1).toList();
+        preparedList = (List<java.lang.Long>)List$.MODULE$.tabulate(size, x -> (java.lang.Integer)x + 1L);
         shuffle = new int[size];
         for (int i = 0; i < size; i++) {
             shuffle[i] = i;
@@ -61,7 +61,7 @@ public class Consume {
 
     @Benchmark
     public List<java.lang.Long> mapElementsToThereDoubleValue() {
-        return preparedList.map((java.lang.Long i) -> 2  * i);
+        return preparedList.map(i -> (long)i * 2);
     }
 
     @Benchmark
