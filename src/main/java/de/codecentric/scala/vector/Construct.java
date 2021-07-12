@@ -2,8 +2,11 @@ package de.codecentric.scala.vector;
 
 import org.openjdk.jmh.annotations.*;
 
+import scala.Long;
+import scala.collection.Seq;
 import scala.collection.immutable.Vector;
 import scala.collection.immutable.Vector$;
+import scala.collection.immutable.VectorBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,19 +18,19 @@ public class Construct {
     public int size;
 
     @Benchmark
-    public Vector<Integer> appendAtEnd() {
-        Vector<Integer> list = Vector$.MODULE$.empty();
+    public Seq<java.lang.Long> appendAtEnd() {
+        Seq<java.lang.Long> list = Vector$.MODULE$.empty();
         for (int i = 0; i < size; i++) {
-            list = (Vector<Integer>)list.$plus$colon(i);
+            list = list.$plus$colon((long)i);
         }
         return list;
     }
 
     @Benchmark
-    public Vector<Integer> appendAtStart() {
-        Vector<Integer> list = Vector$.MODULE$.empty();
+    public Seq<java.lang.Long> appendAtStart() {
+        Seq<java.lang.Long> list = Vector$.MODULE$.empty();
         for (int i = 0; i < size; i++) {
-            list = (Vector<Integer>)list.$colon$plus(i);
+            list = list.$colon$plus(i);
         }
         return list;
     }
@@ -37,28 +40,30 @@ public class Construct {
      * Sizes are <em>not</em> powers of two.
      */
     @Benchmark
-    public Vector<Integer> appendLists() {
+    public Vector<java.lang.Long> appendLists() {
         return appendLists(0, size);
     }
 
-    private Vector<Integer> appendLists(int start, int size) {
+    private Vector<java.lang.Long> appendLists(int start, int size) {
         if(size == 1) {
-            return (Vector<Integer>)Vector$.MODULE$.tabulate(1, x -> start);
+            VectorBuilder<java.lang.Long> builder = new VectorBuilder<>();
+            builder.$plus$eq((long)start);
+            return builder.result();
         } else {
             int leftSize = size / 2;
             int rightSize = size - leftSize;
-            return (Vector<Integer>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
+            return (Vector<java.lang.Long>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
         }
     }
     
     // TODO @Benchmark
-	public Vector<Integer> constructFromIteratorWithKnownSize() {
+	public Vector<Long> constructFromIteratorWithKnownSize() {
         return null;
 	}
 
 	@Benchmark
-	public Vector<Integer> constructFromIterator() {
+	public Vector<java.lang.Long> constructFromIterator() {
 		// TODO: Is this with known size or with unknown size?
-        return Vector$.MODULE$.tabulate(size, x -> (Integer)x + 1).toVector();
+        return Vector$.MODULE$.tabulate(size, x -> (java.lang.Long)x + 1).toVector();
 	}
 }

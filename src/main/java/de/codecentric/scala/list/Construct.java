@@ -8,6 +8,7 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
+import scala.collection.Seq;
 import scala.collection.immutable.List;
 import scala.collection.immutable.List$;
 
@@ -19,19 +20,19 @@ public class Construct {
     public int size;
 
     @Benchmark
-    public List<Integer> appendAtEnd() {
-        List<Integer> list = List$.MODULE$.empty();
+    public Seq<java.lang.Long> appendAtEnd() {
+        Seq<java.lang.Long> list = List$.MODULE$.empty();
         for (int i = 0; i < size; i++) {
-            list = (List<Integer>)list.$plus$colon(i);
+            list = list.$plus$colon((long)i);
         }
         return list;
     }
 
     @Benchmark
-    public List<Integer> appendAtStart() {
-        List<Integer> list = List$.MODULE$.empty();
+    public Seq<java.lang.Long> appendAtStart() {
+        Seq<java.lang.Long> list = List$.MODULE$.empty();
         for (int i = 0; i < size; i++) {
-            list = (List<Integer>)list.appended(i);
+            list = list.appended((long)i);
         }
         return list;
     }
@@ -41,28 +42,28 @@ public class Construct {
      * Sizes are <em>not</em> powers of two.
      */
     @Benchmark
-    public List<Integer> appendLists() {
+    public Seq<java.lang.Long> appendLists() {
         return appendLists(0, size);
     }
 
-    private List<Integer> appendLists(int start, int size) {
+    private Seq<java.lang.Long> appendLists(int start, int size) {
         if(size == 1) {
-            return List$.MODULE$.empty().$colon$colon(start);
+            return List$.MODULE$.empty().$colon$colon((long)start);
         } else {
             int leftSize = size / 2;
             int rightSize = size - leftSize;
-            return (List<Integer>)appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
+            return appendLists(start, leftSize).concat(appendLists(start + leftSize, rightSize));
         }
     }
     
     // TODO @Benchmark
-	public List<Integer> constructFromIteratorWithKnownSize() {
+	public List<java.lang.Long> constructFromIteratorWithKnownSize() {
         return null;
 	}
 
 	@Benchmark
-	public List<Integer> constructFromIterator() {
+	public List<java.lang.Long> constructFromIterator() {
 		// TODO: Is this with known size or with unknown size?
-        return List$.MODULE$.tabulate(size, x -> (Integer)x + 1).iterator().toList();
+        return List$.MODULE$.tabulate(size, x -> (java.lang.Long)x + 1).iterator().toList();
 	}
 }

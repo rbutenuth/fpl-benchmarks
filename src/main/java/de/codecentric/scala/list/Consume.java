@@ -17,13 +17,13 @@ public class Consume {
     @Param({"1", "10", "100", "1000", "10000" })
     public int size;
 
-    public List<Integer> preparedList;
+    public List<java.lang.Long> preparedList;
 
     public int[] shuffle;
 
     @Setup
     public void setup() {
-        preparedList = List$.MODULE$.tabulate(size, x -> (Integer)x + 1).toList();
+        preparedList = List$.MODULE$.tabulate(size, x -> (long)x + 1).toList();
         shuffle = new int[size];
         for (int i = 0; i < size; i++) {
             shuffle[i] = i;
@@ -53,24 +53,24 @@ public class Consume {
 
     @Benchmark
     public void getAllByIterator(Blackhole sink) {
-        scala.collection.Iterator<Integer> iter = preparedList.iterator();
+        scala.collection.Iterator<java.lang.Long> iter = preparedList.iterator();
         while (iter.hasNext()) {
             sink.consume(iter.next());
         }
     }
 
     @Benchmark
-    public List<Double> mapElementsToThereDoubleValue(Blackhole sink) {
-        return preparedList.map(i -> i * 2.0);
+    public List<java.lang.Long> mapElementsToThereDoubleValue() {
+        return preparedList.map((java.lang.Long i) -> 2  * i);
     }
 
     @Benchmark
     public long consumeFromStart() {
         long sum = 0L;
-        List<Integer> list = preparedList;
+        List<java.lang.Long> list = preparedList;
         while (!list.isEmpty()) {
             sum += list.head();
-            list = (List<Integer>)list.drop(1);
+            list = list.drop(1);
         }
         return sum;
     }
@@ -78,10 +78,10 @@ public class Consume {
     @Benchmark
     public long consumeFromEnd() {
         long sum = 0L;
-        List<Integer> list = preparedList;
+        List<java.lang.Long> list = preparedList;
         while (!list.isEmpty()) {
             sum += list.last();
-            list = (List<Integer>)list.dropRight(1);
+            list = list.dropRight(1);
         }
         return sum;
     }
@@ -94,14 +94,14 @@ public class Consume {
         return recursiveSplit(preparedList);
     }
 
-    private long recursiveSplit(List<Integer> list) {
+    private long recursiveSplit(List<java.lang.Long> list) {
         int length = list.length();
         if(length == 0) {
             return 0;
         } else if (length == 1) {
             return list.head();
         } else {
-            Tuple2<List<Integer>, List<Integer>> tuple2 = list.splitAt(length / 2);
+            Tuple2<List<java.lang.Long>, List<java.lang.Long>> tuple2 = list.splitAt(length / 2);
             return recursiveSplit(tuple2._1) + recursiveSplit(tuple2._2);
         }
     }
