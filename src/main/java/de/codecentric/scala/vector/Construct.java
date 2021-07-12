@@ -55,6 +55,7 @@ public class Construct {
         }
     }
 
+    @Benchmark
 	public Vector<java.lang.Long> constructFromIteratorWithKnownSize() {
         return (Vector<java.lang.Long>)Vector$.MODULE$.iterate(0L, size, x -> (long)x + 1);
 	}

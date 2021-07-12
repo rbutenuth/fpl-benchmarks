@@ -61,7 +61,7 @@ public class Construct {
         return (List<java.lang.Long>) List$.MODULE$.iterate((long)0, size, x -> (long)x + 1);
 	}
 
-	//TODO @Benchmark
+	@Benchmark
 	public List<java.lang.Long> constructFromIterator() {
         return (List<java.lang.Long>) List$.MODULE$.tabulate(size, x -> (java.lang.Integer)x + 1L);
 
