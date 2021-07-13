@@ -40,14 +40,14 @@ public class Consume {
     @Benchmark
     public void getAllSequentially(Blackhole sink) {
         for (int i = 0; i < size; i++) {
-            sink.consume(preparedList.apply(i));
+            sink.consume(preparedList.apply(Long.valueOf(i)));
         }
     }
 
     @Benchmark
     public void getAllRandomly(Blackhole sink) {
         for (int i = 0; i < size; i++) {
-            sink.consume(preparedList.apply(shuffle[i]));
+            sink.consume(preparedList.apply(Long.valueOf(shuffle[i])));
         }
     }
 
