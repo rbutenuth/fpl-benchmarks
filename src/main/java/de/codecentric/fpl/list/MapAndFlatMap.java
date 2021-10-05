@@ -14,8 +14,6 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 
-import de.codecentric.fpl.datatypes.FplInteger;
-import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 @State(Scope.Thread)
@@ -25,18 +23,18 @@ public class MapAndFlatMap {
 	@Param({"1", "10", "100", "1000", "10000" })
     public int size;
 	
-	public FplList preparedList;
+	public FplList<Integer> preparedList;
 	
 	private Random rnd;
 	
 	@Setup
 	public void setup() {
-		preparedList = FplList.fromIterator(new Iterator<FplValue>() {
+		preparedList = FplList.fromIterator(new Iterator<Integer>() {
 			int i = 0;
 			
 			@Override
-			public FplValue next() {
-				return FplInteger.valueOf(i++);
+			public Integer next() {
+				return Integer.valueOf(i++);
 			}
 			
 			@Override
@@ -53,27 +51,42 @@ public class MapAndFlatMap {
 	}
 	
 	@Benchmark
-	public FplList map() {
-		return preparedList.map(new Function<FplValue, FplValue>() {
+	public FplList<Integer> mapElementsToTheirDoubleValue() {
+		return preparedList.map(new Function<Integer, Integer>() {
 			
 			@Override
-			public FplValue apply(FplValue t) {
-				return FplInteger.valueOf(((FplInteger)t).getValue() * 2);
+			public Integer apply(Integer t) {
+				return Integer.valueOf(t * 2);
 			}
 		});
 	}
 	
 	@Benchmark
-	public FplList flatMap() {
-		return preparedList.flatMap(new Function<FplValue, FplList>() {
+	public FplList<Integer> flatMapWithIntermediateArrayList() {
+		return preparedList.flatMapWithIntermediateArrayList(new Function<Integer, FplList<Integer>>() {
 			
 			@Override
-			public FplList apply(FplValue t) {
-				long v = ((FplInteger)t).getValue();
+			public FplList<Integer> apply(Integer t) {
 				int size = rnd.nextInt(5);
-				FplValue[] values = new FplValue[size];
+				Integer[] values = new Integer[size];
 				for (int i = 0; i < size; i++) {
-					values[i] = FplInteger.valueOf(v + i);
+					values[i] = Integer.valueOf(t + i);
+				}
+				return FplList.fromValues(values);
+			}
+		});
+	}
+	
+	@Benchmark
+	public FplList<Integer> flatMapWithIterator() {
+		return preparedList.flatMapWithIterator(new Function<Integer, FplList<Integer>>() {
+			
+			@Override
+			public FplList<Integer> apply(Integer t) {
+				int size = rnd.nextInt(5);
+				Integer[] values = new Integer[size];
+				for (int i = 0; i < size; i++) {
+					values[i] = Integer.valueOf(t + i);
 				}
 				return FplList.fromValues(values);
 			}

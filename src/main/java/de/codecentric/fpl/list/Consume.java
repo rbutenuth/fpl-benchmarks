@@ -7,9 +7,6 @@ import java.util.concurrent.TimeUnit;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
-import de.codecentric.fpl.EvaluationException;
-import de.codecentric.fpl.datatypes.FplInteger;
-import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 @State(Scope.Benchmark)
@@ -19,18 +16,18 @@ public class Consume {
 	@Param({"1", "10", "100", "1000", "10000" })
     public int size;
 	
-	public FplList preparedList;
+	public FplList<Integer> preparedList;
 	
 	public int[] shuffle;
 	
 	@Setup
 	public void setup() {
-		preparedList = FplList.fromIterator(new Iterator<FplValue>() {
+		preparedList = FplList.fromIterator(new Iterator<Integer>() {
 			int i = 0;
 			
 			@Override
-			public FplValue next() {
-				return FplInteger.valueOf(i++);
+			public Integer next() {
+				return Integer.valueOf(i++);
 			}
 			
 			@Override
@@ -57,63 +54,37 @@ public class Consume {
 	}
 	
 	@Benchmark
-	public void getAllSequentially(Blackhole sink) throws EvaluationException {
-		for (int i = 0; i < size; i++) {
-			sink.consume(preparedList.get(i));
-		}
-	}
-
-	@Benchmark
-	public void getAllRandomly(Blackhole sink) throws EvaluationException {
+	public void getAllRandomly(Blackhole sink) {
 		for (int i = 0; i < size; i++) {
 			sink.consume(preparedList.get(shuffle[i]));
 		}
 	}
 
 	@Benchmark
-	public void getAllByIterator(Blackhole sink) throws EvaluationException {
-		Iterator<FplValue> iter = preparedList.iterator();
+	public void getAllByIterator(Blackhole sink) {
+		Iterator<Integer> iter = preparedList.iterator();
 		while (iter.hasNext()) {
 			sink.consume(iter.next());
 		}
 	}
 
 	@Benchmark
-	public FplList mapElementsToTheirDoubleValue(Blackhole sink) throws EvaluationException {
-		// The FplList has no map operation, but this comes close to it.
-		// We make use of the fact that we know the size of the resulting list in advance.
-		Iterator<FplValue> iter = preparedList.iterator();
-		return FplList.fromIterator(new Iterator<FplValue>() {
-
-			@Override
-			public boolean hasNext() {
-				return iter.hasNext();
-			}
-
-			@Override
-			public FplInteger next() {
-				return FplInteger.valueOf(((FplInteger)iter.next()).getValue() * 2);
-			}
-		}, preparedList.size());
-	}
-
-	@Benchmark
-	public long consumeFromStart() throws EvaluationException {
-		long sum = 0L;
-		FplList list = preparedList;
+	public int consumeFromStart() {
+		int sum = 0;
+		FplList<Integer> list = preparedList;
 		while (!list.isEmpty()) {
-			sum += ((FplInteger)list.first()).getValue();
+			sum += list.first();
 			list = list.removeFirst();
 		}
 		return sum;
 	}
 	
 	@Benchmark
-	public long consumeFromEnd() throws EvaluationException {
-		long sum = 0L;
-		FplList list = preparedList;
+	public int consumeFromEnd() {
+		int sum = 0;
+		FplList<Integer> list = preparedList;
 		while (!list.isEmpty()) {
-			sum += ((FplInteger)list.last()).getValue();
+			sum += list.last();
 			list = list.removeLast();
 		}
 		return sum;
@@ -123,16 +94,16 @@ public class Consume {
 	 * Simulation of a divide and conquer algorithm.
 	 */
 	@Benchmark
-	public long recursiveSplit() throws EvaluationException {
+	public int recursiveSplit() {
 		return recursiveSplit(preparedList);
 	}
 
-	private long recursiveSplit(FplList list) throws EvaluationException {
+	private int recursiveSplit(FplList<Integer> list) {
 		int length = list.size();
 		if (length == 0) {
 			return 0;
 		} else if (length == 1) {
-			return ((FplInteger)list.first()).getValue();
+			return list.first();
 		} else {
 			return recursiveSplit(list.lowerHalf()) + recursiveSplit(list.upperHalf());
 		}

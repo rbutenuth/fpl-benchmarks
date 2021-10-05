@@ -7,8 +7,6 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.*;
-import de.codecentric.fpl.datatypes.FplInteger;
-import de.codecentric.fpl.datatypes.FplValue;
 import de.codecentric.fpl.datatypes.list.FplList;
 
 import java.util.concurrent.TimeUnit;
@@ -21,19 +19,19 @@ public class Construct {
     public int size;
 	
 	@Benchmark
-	public FplList appendAtEnd() {
-		FplList list = FplList.EMPTY_LIST;
+	public FplList<Integer> appendAtEnd() {
+		FplList<Integer> list = (FplList<Integer>) FplList.EMPTY_LIST;
 		for (int i = 0; i < size; i++) {
-			list = list.addAtEnd(FplInteger.valueOf(i));
+			list = list.addAtEnd(Integer.valueOf(i));
 		}
 		return list;
 	}
 
 	@Benchmark
-	public FplList appendAtStart() {
-		FplList list = FplList.EMPTY_LIST;
+	public FplList<Integer> appendAtStart() {
+		FplList<Integer> list = (FplList<Integer>) FplList.EMPTY_LIST;
 		for (int i = 0; i < size; i++) {
-			list = list.addAtStart(FplInteger.valueOf(i));
+			list = list.addAtStart(Integer.valueOf(i));
 		}
 		return list;
 	}
@@ -43,13 +41,13 @@ public class Construct {
 	 * Sizes are <em>not</em> powers of two.
 	 */
 	@Benchmark
-	public FplList appendLists() {
+	public FplList<Integer> appendLists() {
 		return appendLists(0, size);
 	}
 
-	private FplList appendLists(int start, int size) {
+	private FplList<Integer> appendLists(int start, int size) {
 		if (size == 1) {
-			return FplList.fromValues(FplInteger.valueOf(start));
+			return FplList.fromValues(Integer.valueOf(start));
 		} else {
 			int leftSize = size / 2;
 			int rightSize = size - leftSize;
@@ -58,13 +56,13 @@ public class Construct {
 	}
 
 	@Benchmark
-	public FplList constructFromIteratorWithKnownSize() {
-		return FplList.fromIterator(new Iterator<FplValue>() {
+	public FplList<Integer> constructFromIteratorWithKnownSize() {
+		return FplList.fromIterator(new Iterator<Integer>() {
 			int i = 0;
 
 			@Override
-			public FplValue next() {
-				return FplInteger.valueOf(i++);
+			public Integer next() {
+				return Integer.valueOf(i++);
 			}
 
 			@Override
@@ -75,13 +73,13 @@ public class Construct {
 	}
 
 	@Benchmark
-	public FplList constructFromIterator() {
-		return FplList.fromIterator(new Iterator<FplValue>() {
+	public FplList<Integer> constructFromIterator() {
+		return FplList.fromIterator(new Iterator<Integer>() {
 			int i = 0;
 
 			@Override
-			public FplValue next() {
-				return FplInteger.valueOf(i++);
+			public Integer next() {
+				return Integer.valueOf(i++);
 			}
 
 			@Override

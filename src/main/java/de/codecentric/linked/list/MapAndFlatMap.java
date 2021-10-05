@@ -14,9 +14,6 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 
-import de.codecentric.fpl.datatypes.FplInteger;
-import de.codecentric.fpl.datatypes.FplValue;
-
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class MapAndFlatMap {
@@ -24,18 +21,18 @@ public class MapAndFlatMap {
 	@Param({"1", "10", "100", "1000", "10000" })
     public int size;
 	
-	public SingleLinkedList preparedList;
+	public SingleLinkedList<Integer> preparedList;
 	
 	private Random rnd;
 	
 	@Setup
 	public void setup() {
-		preparedList = SingleLinkedList.fromIterator(new Iterator<FplValue>() {
+		preparedList = SingleLinkedList.fromIterator(new Iterator<Integer>() {
 			int i = 0;
 			
 			@Override
-			public FplValue next() {
-				return FplInteger.valueOf(i++);
+			public Integer next() {
+				return Integer.valueOf(i++);
 			}
 			
 			@Override
@@ -52,27 +49,26 @@ public class MapAndFlatMap {
 	}
 	
 	@Benchmark
-	public SingleLinkedList map() {
-		return preparedList.map(new Function<FplValue, FplValue>() {
+	public SingleLinkedList<Integer> mapElementsToTheirDoubleValue() {
+		return preparedList.map(new Function<Integer, Integer>() {
 			
 			@Override
-			public FplValue apply(FplValue t) {
-				return FplInteger.valueOf(((FplInteger)t).getValue() * 2);
+			public Integer apply(Integer t) {
+				return Integer.valueOf(t * 2);
 			}
 		});
 	}
 	
 	@Benchmark
-	public SingleLinkedList flatMap() {
-		return preparedList.flatMap(new Function<FplValue, SingleLinkedList>() {
+	public SingleLinkedList<Integer> flatMap() {
+		return preparedList.flatMap(new Function<Integer, SingleLinkedList<Integer>>() {
 			
 			@Override
-			public SingleLinkedList apply(FplValue t) {
-				long v = ((FplInteger)t).getValue();
+			public SingleLinkedList<Integer> apply(Integer t) {
 				int size = rnd.nextInt(5);
-				FplValue[] values = new FplValue[size];
+				Integer[] values = new Integer[size];
 				for (int i = 0; i < size; i++) {
-					values[i] = FplInteger.valueOf(v + i);
+					values[i] = Integer.valueOf(t + i);
 				}
 				return SingleLinkedList.fromValues(values);
 			}
