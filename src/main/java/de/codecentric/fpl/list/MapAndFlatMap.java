@@ -62,33 +62,25 @@ public class MapAndFlatMap {
 	}
 	
 	@Benchmark
-	public FplList<Integer> flatMapWithIntermediateArrayList() {
-		return preparedList.flatMapWithIntermediateArrayList(new Function<Integer, FplList<Integer>>() {
+	public FplList<Integer> flatMap() {
+		return preparedList.flatMap(new Function<Integer, FplList<Integer>>() {
 			
 			@Override
 			public FplList<Integer> apply(Integer t) {
 				int size = rnd.nextInt(5);
-				Integer[] values = new Integer[size];
-				for (int i = 0; i < size; i++) {
-					values[i] = Integer.valueOf(t + i);
-				}
-				return FplList.fromValues(values);
-			}
-		});
-	}
-	
-	@Benchmark
-	public FplList<Integer> flatMapWithIterator() {
-		return preparedList.flatMapWithIterator(new Function<Integer, FplList<Integer>>() {
-			
-			@Override
-			public FplList<Integer> apply(Integer t) {
-				int size = rnd.nextInt(5);
-				Integer[] values = new Integer[size];
-				for (int i = 0; i < size; i++) {
-					values[i] = Integer.valueOf(t + i);
-				}
-				return FplList.fromValues(values);
+				return FplList.fromIterator(new Iterator<Integer>() {
+					int i = 0;
+					
+					@Override
+					public boolean hasNext() {
+						return i < size;
+					}
+
+					@Override
+					public Integer next() {
+						return Integer.valueOf(t + i++);
+					}
+				}, size);
 			}
 		});
 	}

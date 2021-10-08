@@ -47,7 +47,7 @@ public class Construct {
 
 	private FplList<Integer> appendLists(int start, int size) {
 		if (size == 1) {
-			return FplList.fromValues(Integer.valueOf(start));
+			return FplList.fromValue(Integer.valueOf(start));
 		} else {
 			int leftSize = size / 2;
 			int rightSize = size - leftSize;
