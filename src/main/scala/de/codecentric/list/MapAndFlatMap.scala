@@ -53,4 +53,22 @@ class MapAndFlatMap {
       List.iterate(0, size)( i => i + t) 
     }
 
+  @Benchmark
+  def flatMap100(): List[Int] =
+    preparedList.flatMap { t => 
+      val size = rnd.nextInt(100)
+      val values = Array[Int](size)
+      for
+        i <- 0 until size
+      yield values(i) = t + i
+      List(values:_*)            
+    }
+
+  @Benchmark
+  def flatMap2_100(): List[Int] =
+    preparedList.flatMap { t => 
+      val size = rnd.nextInt(100)
+      List.iterate(0, size)( i => i + t) 
+    }
+
 }

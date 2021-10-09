@@ -43,10 +43,6 @@ class Consume {
     while iter.hasNext do
       sink.consume(iter.next)
 
-  @Benchmark    
-  def mapElementsToTheirDoubleValue(): Vector[Int] =    
-    preparedList.map(i => 2 * i)
-
   @Benchmark  
   def consumeFromStart: Int = 
     preparedList.reduceLeft(_ + _)

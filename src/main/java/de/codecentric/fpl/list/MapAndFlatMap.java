@@ -84,4 +84,28 @@ public class MapAndFlatMap {
 			}
 		});
 	}
+
+	@Benchmark
+	public FplList<Integer> flatMap100() {
+		return preparedList.flatMap(new Function<Integer, FplList<Integer>>() {
+			
+			@Override
+			public FplList<Integer> apply(Integer t) {
+				int size = rnd.nextInt(100);
+				return FplList.fromIterator(new Iterator<Integer>() {
+					int i = 0;
+					
+					@Override
+					public boolean hasNext() {
+						return i < size;
+					}
+
+					@Override
+					public Integer next() {
+						return Integer.valueOf(t + i++);
+					}
+				}, size);
+			}
+		});
+	}
 }

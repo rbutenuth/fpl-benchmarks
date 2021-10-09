@@ -66,11 +66,43 @@ public class MapAndFlatMap {
 			@Override
 			public SingleLinkedList<Integer> apply(Integer t) {
 				int size = rnd.nextInt(5);
-				Integer[] values = new Integer[size];
-				for (int i = 0; i < size; i++) {
-					values[i] = Integer.valueOf(t + i);
-				}
-				return SingleLinkedList.fromValues(values);
+				return SingleLinkedList.fromIterator(new Iterator<Integer>() {
+					int i = 0;
+					
+					@Override
+					public boolean hasNext() {
+						return i < size;
+					}
+
+					@Override
+					public Integer next() {
+						return Integer.valueOf(t + i++);
+					}
+				});
+			}
+		});
+	}
+
+	@Benchmark
+	public SingleLinkedList<Integer> flatMap100() {
+		return preparedList.flatMap(new Function<Integer, SingleLinkedList<Integer>>() {
+			
+			@Override
+			public SingleLinkedList<Integer> apply(Integer t) {
+				int size = rnd.nextInt(100);
+				return SingleLinkedList.fromIterator(new Iterator<Integer>() {
+					int i = 0;
+					
+					@Override
+					public boolean hasNext() {
+						return i < size;
+					}
+
+					@Override
+					public Integer next() {
+						return Integer.valueOf(t + i++);
+					}
+				});
 			}
 		});
 	}
