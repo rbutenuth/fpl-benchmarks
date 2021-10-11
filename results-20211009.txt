@@ -1,3 +1,5 @@
+After replacing new array + arraycopy() with copyOf()
+
 Benchmark                                                    (size)  Mode  Cnt       Score       Error  Units
 d.c.fpl.list.Construct.appendAtEnd                                1    ss    5      17,840 ±    71,946  us/op
 d.c.fpl.list.Construct.appendAtEnd                               10    ss    5      23,640 ±    67,414  us/op
