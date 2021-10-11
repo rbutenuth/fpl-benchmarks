@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-class Construct {
+class Construct:
 
   @Param(Array("1", "10", "100", "1000", "10000"))  
   var size: Int =_
@@ -33,10 +33,10 @@ class Construct {
   
   @Benchmark    
   def constructFromIteratorWithKnownSize: Vector[Int] =
-    Vector.iterate(0, size)(x => x + 1)    
+    Vector.tabulate(size)(_ + 1)    
 
   @Benchmark  
   def constructFromIterator: Vector[Int] =
-    Vector.tabulate(size)(x => x + 1)
+    Vector.from(Iterator.from(0).take(size))
   
-}
+end Construct

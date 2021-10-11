@@ -6,3 +6,7 @@ hs_err_pid*
 /fpl-benchmarks.iml
 /.idea/
 /.settings/
+/.metals
+/.vscode
+/.bsp/**
+/.bloop

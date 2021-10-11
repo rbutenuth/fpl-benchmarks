@@ -8,7 +8,7 @@ import org.openjdk.jmh.infra.Blackhole
 
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-class Consume {
+class Consume:
   
   @Param(Array("1", "10", "100", "1000", "10000"))  
   var size: Int =_
@@ -45,11 +45,23 @@ class Consume {
 
   @Benchmark  
   def consumeFromStart: Int = 
-    preparedList.reduceLeft(_ + _)
+    var sum = 0
+    var list = preparedList
+    while(list.nonEmpty) {
+      sum = sum + list.head
+      list = list.drop(1)
+    }
+    sum
 
   @Benchmark  
   def consumeFromEnd: Int =   
-    preparedList.reduceRight(_ + _)
+    var sum = 0
+    var list = preparedList
+    while(list.nonEmpty) {
+      sum = sum + list.last
+      list = list.dropRight(1)
+    }
+    sum
 
   @Benchmark  
   def recursiveSplit: Int =
@@ -65,4 +77,4 @@ class Consume {
       val (firstHalf, secondHalf) = list.splitAt(length / 2)
       recursiveSplit(firstHalf) + recursiveSplit(secondHalf)
 
-}
+end Consume

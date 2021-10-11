@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-class Construct {
+class Construct:
 
   @Param(Array("1", "10", "100", "1000", "10000"))  
   var size: Int =_
@@ -13,12 +13,10 @@ class Construct {
   @Benchmark
   def appendAtEnd: List[Int] =
     (0 until size).foldLeft(List.empty[Int])((list, i) => list :+ i)
-  
-
+     
   @Benchmark
   def appendAtStart: List[Int] = 
     (0 until size).foldLeft(List.empty[Int])((list, i) => i +: list)
-
 
   @Benchmark  
   def appendLists: List[Int] = 
@@ -34,10 +32,10 @@ class Construct {
   
   @Benchmark    
   def constructFromIteratorWithKnownSize: List[Int] =
-    List.iterate(0, size)(x => x + 1)    
+    List.tabulate(size)(_ + 1) 
 
   @Benchmark  
   def constructFromIterator: List[Int] =
-    List.tabulate(size)(x => x + 1)
+    List.from(Iterator.from(0).take(size))
 
-}
+end Construct

@@ -15,9 +15,9 @@ import scala.language.postfixOps
 
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-class MapAndFlatMap {
+class MapAndFlatMap:
 
-  @Param(Array("1", "10", "100", "1000", "10000"))  
+  @Param(Array("1", "10", "100", "1000", "10000"))    
   var size: Int = _
   var preparedList: Vector[Int] = _
   var rnd: Random = _
@@ -25,7 +25,7 @@ class MapAndFlatMap {
   @Setup
   def setup(): Unit =
     preparedList = Vector.iterate(0, size)(i => i + 1)
-    rnd = Random(42);
+    rnd = Random(42)
 	
   @TearDown
   def tearDown(): Unit =
@@ -38,8 +38,8 @@ class MapAndFlatMap {
   @Benchmark
   def flatMap(): Vector[Int] =
     preparedList.flatMap { t => 
-      val size = rnd.nextInt(5)
-      val values = Array[Int](size)
+      val size = rnd.nextInt(5) + 1
+      val values: Array[Int] = Array.ofDim(size)
       for
         i <- 0 until size
       yield values(i) = t + i
@@ -50,14 +50,14 @@ class MapAndFlatMap {
   def flatMap2(): Vector[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(5)
-      Vector.iterate(0, size)( i => i + t) 
+      Vector.tabulate(size)(i => i + t) 
     }
 
   @Benchmark
   def flatMap100(): Vector[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(100)
-      val values = Array[Int](size)
+      val values: Array[Int] = Array.ofDim(size)
       for
         i <- 0 until size
       yield values(i) = t + i
@@ -68,7 +68,7 @@ class MapAndFlatMap {
   def flatMap2_100(): Vector[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(100)
-      Vector.iterate(0, size)( i => i + t) 
+      Vector.tabulate(size)( i => i + t) 
     }
 
-}
+end MapAndFlatMap
