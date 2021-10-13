@@ -19,7 +19,7 @@ class Consume:
   @Setup
   def setup =
     preparedList = Vector.tabulate(size)(x => x + 1)
-    shuffle = new Array[Int](size)
+    shuffle = Array.ofDim(size)
     for i <- 0 until size do 
       shuffle(i) = i
         

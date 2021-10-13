@@ -1,9 +1,10 @@
-package de.codecentric.list
+package de.codecentric.arrseq
 
 import org.openjdk.jmh.annotations._
 
 import java.util.concurrent.TimeUnit;
 import scala.util.Random
+import scala.collection.immutable.ArraySeq
 import org.openjdk.jmh.infra.Blackhole
 
 @State(Scope.Benchmark)
@@ -13,12 +14,12 @@ class Consume:
   @Param(Array("1", "10", "100", "1000", "10000"))  
   var size: Int =_
 
-  var preparedList: List[Int] = _
+  var preparedList: ArraySeq[Int] = _
   var shuffle: Array[Int] = _
 
   @Setup
   def setup =
-    preparedList = List.tabulate(size)(x => x + 1)
+    preparedList = ArraySeq.tabulate(size)(x => x + 1)
     shuffle = Array.ofDim(size)
     for i <- 0 until size do 
       shuffle(i) = i
@@ -67,7 +68,7 @@ class Consume:
   def recursiveSplit: Int =
     recursiveSplit(preparedList)  
 
-  def recursiveSplit(list: List[Int]): Int = 
+  def recursiveSplit(list: ArraySeq[Int]): Int = 
     val length = list.length
     if length == 0 then
       0

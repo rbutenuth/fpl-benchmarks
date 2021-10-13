@@ -1,4 +1,4 @@
-package de.codecentric.list
+package de.codecentric.arrseq
 
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
@@ -12,6 +12,7 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 
 import scala.language.postfixOps
+import scala.collection.immutable.ArraySeq
 
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
@@ -19,12 +20,12 @@ class MapAndFlatMap:
 
   @Param(Array("1", "10", "100", "1000", "10000"))  
   var size: Int = _
-  var preparedList: List[Int] = _
+  var preparedList: ArraySeq[Int] = _
   var rnd: Random = _
 
   @Setup
   def setup(): Unit =
-    preparedList = List.iterate(0, size)(i => i + 1)
+    preparedList = ArraySeq.iterate(0, size)(i => i + 1)
     rnd = Random(42)
 	
   @TearDown
@@ -32,43 +33,43 @@ class MapAndFlatMap:
     preparedList = null;
 
   @Benchmark
-  def mapElementsToTheirDoubleValue(): List[Int] =
+  def mapElementsToTheirDoubleValue(): ArraySeq[Int] =
     preparedList.map(_ * 2)
 
   @Benchmark
-  def flatMap(): List[Int] =
+  def flatMap(): ArraySeq[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(5)
       val values: Array[Int] = Array.ofDim(size)
       for
         i <- 0 until size
       yield values(i) = t + i
-      List(values:_*)            
+      ArraySeq.ofInt(values)            
     }
 
   @Benchmark
-  def flatMap2(): List[Int] =
+  def flatMap2(): ArraySeq[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(5)
-      List.tabulate(size)( i => i + t) 
+      ArraySeq.tabulate(size)( i => i + t) 
     }
 
   @Benchmark
-  def flatMap100(): List[Int] =
+  def flatMap100(): ArraySeq[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(100)
       val values: Array[Int] = Array.ofDim(size)
       for
         i <- 0 until size
       yield values(i) = t + i
-      List.from(values)            
+      ArraySeq.ofInt(values)            
     }
 
   @Benchmark
-  def flatMap2_100(): List[Int] =
+  def flatMap2_100(): ArraySeq[Int] =
     preparedList.flatMap { t => 
       val size = rnd.nextInt(100)
-      List.tabulate(size)( i => i + t) 
+      ArraySeq.tabulate(size)( i => i + t) 
     }
 
 end MapAndFlatMap

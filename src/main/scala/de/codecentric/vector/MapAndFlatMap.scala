@@ -43,7 +43,7 @@ class MapAndFlatMap:
       for
         i <- 0 until size
       yield values(i) = t + i
-      Vector(values:_*)            
+      Vector.from(values)           
     }
 
   @Benchmark
@@ -61,7 +61,7 @@ class MapAndFlatMap:
       for
         i <- 0 until size
       yield values(i) = t + i
-      Vector(values:_*)            
+      Vector.from(values)            
     }
 
   @Benchmark
