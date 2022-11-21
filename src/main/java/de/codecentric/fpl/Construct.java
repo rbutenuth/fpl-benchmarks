@@ -1,4 +1,4 @@
-package de.codecentric.fpl.list;
+package de.codecentric.fpl;
 
 import java.util.Iterator;
 

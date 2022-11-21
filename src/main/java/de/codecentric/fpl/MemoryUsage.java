@@ -1,4 +1,4 @@
-package de.codecentric.fpl.list;
+package de.codecentric.fpl;
 
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.vm.VM;

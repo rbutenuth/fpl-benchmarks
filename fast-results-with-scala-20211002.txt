@@ -1,9 +1,0 @@
-
-2 * base_size:
-
-d.c.list.Construct.constructFromIterator                        1    ss    5      27,800 ´┐¢    26,732  us/op
-d.c.list.Construct.constructFromIterator                       10    ss    5      40,960 ´┐¢    45,408  us/op
-d.c.list.Construct.constructFromIterator                      100    ss    5     221,820 ´┐¢    33,101  us/op
-d.c.list.Construct.constructFromIterator                     1000    ss    5     157,080 ´┐¢    70,983  us/op
-d.c.list.Construct.constructFromIterator                    10000    ss    5     964,740 ´┐¢   204,204  us/op
-

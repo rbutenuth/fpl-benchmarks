@@ -16,14 +16,13 @@ java -jar target/benchmarks.jar -i 1 -wi 1 -r 1 -bm SingleShotTime
 ## Options for a detailed run
 
 Measurement:
-java -jar target/benchmarks.jar -i 3 -r 2 -bm avgt -rf csv -rff result.csv >result.txt
+java -jar target/benchmarks.jar -i 3 -r 2 -bm avgt -rf csv -rff exact-result-java.csv >exact-result-java.txt
 ETA: 13:13
 ```
 
 ## Measure mememory consumption
 
 https://github.com/openjdk/jol
-
 
 
 
@@ -37,9 +36,20 @@ Using JMH with Clojure: http://clojure-goes-fast.com/blog/using-jmh-with-clojure
 
 ## Run SBT Console 
 
+(Does not work in gitbash on Windows, use cmd instead.)
 `sbt`
 
 ## Run JMH within SBT Console
 
 `jmh:run -i 1 -wi 1 -r 1 -bm SingleShotTime`
+geschätzt 14 h
+jmh:run  -i 3 -r 2 -bm avgt -rf csv -rff exact-result-scala.csv
 
+
+## Documentation about Scala Vector
+
+https://github.com/scala/scala/pull/8534
+In Scala since 2.13.x
+
+http://docs.scala-lang.org/overviews/collections/concrete-immutable-collection-classes.html#vectors "Scala's Collection Library overview"
+(Da steht auch das "effectivly constant"...

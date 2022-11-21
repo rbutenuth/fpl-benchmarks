@@ -1,4 +1,4 @@
-package de.codecentric.linked.list;
+package de.codecentric.linked;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+
+import de.codecentric.linked.list.SingleLinkedList;
 
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)

@@ -1,4 +1,4 @@
-package de.codecentric.linked.list;
+package de.codecentric.linked;
 
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +8,8 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+
+import de.codecentric.linked.list.SingleLinkedList;
 
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)

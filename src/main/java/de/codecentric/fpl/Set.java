@@ -1,4 +1,4 @@
-package de.codecentric.fpl.list;
+package de.codecentric.fpl;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -11,7 +11,7 @@ import de.codecentric.fpl.datatypes.list.FplList;
 
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-public class Consume {
+public class Set {
 	
 	@Param({"1", "10", "100", "1000", "10000" })
     public int size;
@@ -54,58 +54,30 @@ public class Consume {
 	}
 	
 	@Benchmark
-	public void getAllRandomly(Blackhole sink) {
+	public void setAllSequential(Blackhole sink) {
 		for (int i = 0; i < size; i++) {
-			sink.consume(preparedList.get(shuffle[i]));
+			sink.consume(preparedList.set(i, Integer.valueOf(-i)));
 		}
 	}
 
 	@Benchmark
-	public void getAllByIterator(Blackhole sink) {
-		Iterator<Integer> iter = preparedList.iterator();
-		while (iter.hasNext()) {
-			sink.consume(iter.next());
+	public void set10PercentSequential(Blackhole sink) {
+		for (int i = 0; i < size / 10; i++) {
+			sink.consume(preparedList.set(10 * i, Integer.valueOf(-i)));
 		}
 	}
 
 	@Benchmark
-	public int consumeFromStart() {
-		int sum = 0;
-		FplList<Integer> list = preparedList;
-		while (!list.isEmpty()) {
-			sum += list.first();
-			list = list.removeFirst();
+	public void setAllRandom(Blackhole sink) {
+		for (int i = 0; i < size; i++) {
+			sink.consume(preparedList.set(shuffle[i], Integer.valueOf(-i)));
 		}
-		return sum;
-	}
-	
-	@Benchmark
-	public int consumeFromEnd() {
-		int sum = 0;
-		FplList<Integer> list = preparedList;
-		while (!list.isEmpty()) {
-			sum += list.last();
-			list = list.removeLast();
-		}
-		return sum;
-	}
-	
-	/**
-	 * Simulation of a divide and conquer algorithm.
-	 */
-	@Benchmark
-	public int recursiveSplit() {
-		return recursiveSplit(preparedList);
 	}
 
-	private int recursiveSplit(FplList<Integer> list) {
-		int length = list.size();
-		if (length == 0) {
-			return 0;
-		} else if (length == 1) {
-			return list.first();
-		} else {
-			return recursiveSplit(list.lowerHalf()) + recursiveSplit(list.upperHalf());
+	@Benchmark
+	public void set10PercentRandom(Blackhole sink) {
+		for (int i = 0; i < size / 10; i++) {
+			sink.consume(preparedList.set(shuffle[i], Integer.valueOf(-i)));
 		}
 	}
 }
