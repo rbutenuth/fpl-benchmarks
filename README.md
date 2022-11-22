@@ -42,7 +42,6 @@ Using JMH with Clojure: http://clojure-goes-fast.com/blog/using-jmh-with-clojure
 ## Run JMH within SBT Console
 
 `jmh:run -i 1 -wi 1 -r 1 -bm SingleShotTime`
-geschätzt 14 h
 jmh:run  -i 3 -r 2 -bm avgt -rf csv -rff exact-result-scala.csv
 
 
